@@ -3,6 +3,7 @@ i1 = Import ["https://www.wolframcloud.com/obj/mar/Hamoye/Session%202/Data/Afric
 
 ( * create food production dataset * )
 prodDataset = Dataset[AssociationThread[First[i1] ->#]&/@Rest[i1]]
+<<<<<<< HEAD
 
 
 Clear[tokiloton, toDateObj]
@@ -67,3 +68,5 @@ averageSupplyByCountry2004To2011 = Dataset[
 
 (* Print the average food supply for each country between 2004 and 2011 *)
 Print[averageSupplyByCountry2004To2011]
+=======
+>>>>>>> 8175a8363bccc1f4a6b9989c1e9dbe99fde6b08a
