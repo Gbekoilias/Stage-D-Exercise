@@ -61,7 +61,7 @@ Print[averageSupplyByCountry]
 (* Calculate the average food supply for each country between 2004 and 2011 *)
 averageSupplyByCountry2004To2011 = Dataset[
   Mean /@ GroupBy[
-    Filter[supplyDataset, #Year >= 2004 && #Year <= 2011 &],
+    Filter[supplyDataset, #Year >= 2004 && #Year <= 2011 &]
     "Country"
   ]
 ];
