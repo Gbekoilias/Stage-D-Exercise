@@ -128,3 +128,17 @@ outliers = Cases[QuantityMagnitude@foodSupply2012[[;; ,2]],x_ /; (X< lowerFence 
 (* and what countries they correspond to *)
 Positon[foodSupply2012, #][[1, 1]]&/@outliers;
 foodSupply2012[[%]]
+
+(* create plot *)
+ListPlot [Association[Rule@@@foodSupply2012] ,
+Ticks -> {None, Automatic}, Epilog -> ({
+         {#1, Thick, Line[{{l,#2}, {45,#2}}]},
+         Inset [Style[#3, #1], {43, #2 + 40}]
+         }&@@@ {{Blue, mean,"mean"}, {Pink, md,"median"},
+            {Darker@Green, upperFence,"upper fence"}, {Orange,"lower fence"}}),lowerFence ,
+         PlotRange {Full, {1000, 4000}}, ImageSize 700]
+
+
+
+
+   
