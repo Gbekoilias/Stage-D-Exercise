@@ -140,5 +140,31 @@ Ticks -> {None, Automatic}, Epilog -> ({
 
 
 
+(* hypothesis testing *)
+riceDataset = DeleteMissing[
+   prodDatasetGrouped[ ; ; , "Rice (Milled Equivalent)"],1,3]
 
-   
+(* hypothesis test data *)
+(* yearly mean rice prod. for all countries *)
+meanRiceProdByYear = N@Mean[riceDataset[_;_; ,& /@ Range[10] ;
+
+
+(* yearly mean population of all countries *)
+meanPopByYear = N@Table[Mean[(Dated[#, yr]["Population"]) & /@Keys[riceDataset]], {yr, Range[2004, 2013]};
+
+(* above computation takes too long, and will eventually time out. here it is incompressed form *)
+meanPopByYea r=Uncomp ress [ " 1 : eJ xTTMoPSuN iYGAoZgESPpn FJWIMI B4HkAgsTcwrySypLPosdWq3sOKpYzAbUDQgNb8gJxWLqhsBcZenzSekCmjW7VrFMgKqzKZcj2fqt rcKg toquR9uvTbdUKqAu0cPffmVBJ2fesUl tpkVQCCa3N8"]
+
+(* hypothesis test data *)
+testData = Thread[Transpose[{meanRiceProdByYear, meanPopByYear}]
+->Range [2004 ,2013]]
+
+PearsonCorrelationTest[meanRiceProdByYear, meanPopByYear,"TestDataTable "]
+
+H = PearsonCorrelationTest[meanRiceProdByYear, meanPopByYear,"Hypothes isTestData "]
+H["Properties"]
+
+Grid[{#, H[#]} &/@ {"ShortTestConcluston" ,"TestConclusion"}, Alignment -> Left, 
+Frame -> All]
+
+ 
