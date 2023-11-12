@@ -75,3 +75,56 @@ data = RandomVariate[GammaDistribution[3,2], 50]
 (*Reordering the dataset and preparing a suitable plot*)
 ListPlot[ReverseSort@data, Filling -> Axis, PlotRange ->All]
 
+BoxWhiskerChart[data, "Outliers"]
+
+(* generates a boxplot of food consumption in 45 African countries between 2004 and 2013.*)
+ListPlot[
+  SortBy[
+    GroupBy["Year", {1.43, 3.24, 5.24, 7.75}, "Value"][
+      BoxWhiskerChart[#, ("Outliers", ("MeanMarker"))]},
+    ChartLabels -> Range[2004, 2013],
+    ChartElementFunction -> ChartElementData["Gradient ScaleBoxWhisker",
+                                             "Color Scheme" -> "Light TemperatureMap"],
+    PlotTheme -> "Business",
+    FrameLabel -> {"Year", "Kcal per capita per day"},
+    PlotLabel -> "Food consumption in 45 African countries between 2004 and 2013",
+    ImageSize -> 500] &],
+  Filling -> BottomFilling,
+  PlotRange -> {{2004, 2013}, {0, 3500}},
+  AspectRatio -> 1,
+  XLabel -> "Year",
+  YLabel -> "Kcal per capita per day",
+  Title -> "Food consumption in 45 African countries between 2004 and 2013"
+
+supplyDataset[GroupBy[ "Year" ] ,"Value" ] [
+BoxWhiskerChart[#,{ "Outl ters " ,{"MeanMarker"}}, ChartLabels -> Range[2004,
+2013], ChartElementFunctton -> ,
+"ColorScheme" -> "Light TemperatureMap" ] , Plot Theme -> "Business" , FrameLabel ->
+{"year", "kcal per capita per -> "F"ood consumption in 45 African countries between 2004 and 2013"
+ImageSize -> 500] &] ,
+
+foodSupply2012 = Values@Normal@Select[supplyDataset, #Year==DateObject[{2012}] &]
+[;; , {"Country", "Value"} ] •
+Short [%]
+
+
+(* stats *)
+   mean = QuantityMagnitude@Mean[foodSupply2012[[;; ,]]];
+md = QuantityMagnitude@Median[foodSupply2012[[;; ,]]]
+
+(* quartiles *)
+   {Q1, Q3} = QuantityMagnitude@Quantile[foodSupply2012[[;;,2]]], {1/4, 3/4};
+IQR = QuantityMagnitude@InterQuartileRange[foodSupply2012[[;;, 2]]]
+
+(* fences *)  
+(* values lower than this will be classified as an outlier*)
+lowerfence = Q1 - 1.5 IQR;
+(* values higher than this will be classified as an outlier*)
+upperfence = Q3 + 1.5 IQR;
+
+(* find which values are outliers *)
+outliers = Cases[QuantityMagnitude@foodSupply2012[[;; ,2]],x_ /; (X< lowerFence || x > upperFence )];
+
+(* and what countries they correspond to *)
+Positon[foodSupply2012, #][[1, 1]]&/@outliers;
+foodSupply2012[[%]]
