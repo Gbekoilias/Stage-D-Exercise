@@ -198,3 +198,36 @@ Grid[
 {{#1, l@#1}, {#2, l@#2},
 {"Intersection" ,l@#1  \[Intersection] l@#2}}&@@{Entity['Country',
 "Tanzania"] , Entity["Country","Mozambique"]}, Frame -> All]
+
+(* there's no data for South Sudan yet, so delete it *)
+africaAgricProds2 = DeleteMissing[africaAgricProds];
+(* vertex labels*)
+vl = With[{p = africaAgricProds2}, Thread[p[[-3;;, 2]]
+   Column/@Thread[{Style[#Bold] & /@ p[[-3;;, 1]],p[[-3;;, 2]]}]]];
+
+(* example with three countries*)
+RelationGraph[DisjotntQ, africaAgricProds2[[-3 ;;,2]], VertexLabels -> vl]
+
+(* plot graph *)
+rg = RelationGraph[DisjointQ, DeleteMissing[africaAgricProds]_[_[_;_; , 2]]
+VertexLabels -> (Reverse/@africaAgricProds2), GraphLayout -> "CircuZarEmbedding"]
+
+
+
+(* vertex degree for each country *)
+vd = VertexDegree
+
+(* function to highlight graph *)
+High Z ightVertexDegree[.g—, vd ] := HighlightGraph[g, Table[Style[VertexList[g]
+[[i]],
+   ColorData["TemperatureMap"][vd[[i]]]/Max[vd]]], {i, VertexCount[g]}]];
+
+
+(* show highlighted graph *)
+HighlightVertexDegree.[rg, vd]
+
+Lookup[africaAgricProds, Entity[ "Country", "Tunisia"]]
+
+
+Grid[MaximalBy[Thread[{africaAgricProds2[[;;, 1]], vd}],Last, 5], Frame -> All]]],
+
