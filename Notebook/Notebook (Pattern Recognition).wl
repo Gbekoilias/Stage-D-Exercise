@@ -167,4 +167,34 @@ H["Properties"]
 Grid[{#, H[#]} &/@ {"ShortTestConcluston" ,"TestConclusion"}, Alignment -> Left, 
 Frame -> All]
 
- 
+ ListPlot[Thread[Transpose[{meanRiceProdByYear, meanPopByYear}] -> Range[2004,2013]], AxesLabel -> {"Mean Rice Production (kt)", "Mean Population"},
+PlotLabel -> "Population vs Rice Production (2004- 2013)"]
+
+(*convert countries from strings to Wolfram entities *)
+toCountryEntity[countryName String].:=toCountryEntity[countryName]_=Interpreter['Country'/ "AdministrativeDivision"][countryName];
+(*country data in its original form *)
+Normal [riceDataset[[;;, 1, 1, 1]]]
+
+(*samedata converted to Wolfram entities*)
+KeyMap[toCountryEnttty , Normal[riceDataset[[;; ,1 ,1, 1]]]
+
+(* create plots for 2004-2013 *)
+plotList =
+   Column[{Text[2003 + #],
+      GeoRegionValuePlot [KeyMap[toCountryEntity,Normal[riceDataset[[;; , #, 1,
+1]]]]]}],
+      Alignment -> Center] & /@ Range[10];
+(* interactively view plots. this visualisation is dynamic so plotList must berun first before it shows anything *)
+Manipulation[plolist[[Year]], {{Year, 1},(# -> ToString[2003 + =])&/@
+Range[10]},ControlType -> SetterBar]
+
+
+africaAgricProds= (#-> #[ "AgriculturalProducts" ] )&/@CountryData[ "Africa" ] ;
+Short [africaAgricProds,5]
+
+(* example what two bordering countries,Tanzania and Mozambique *)
+l[c_]= Lookup[africaAgricProds, c];
+Grid[
+{{#1, l@#1}, {#2, l@#2},
+{"Intersection" ,l@#1  \[Intersection] l@#2}}&@@{Entity['Country',
+"Tanzania"] , Entity["Country","Mozambique"]}, Frame -> All]
